@@ -46,7 +46,6 @@ function handleCellClick(event){
 }
 
 function evaluateEnd() {
-  // check winner
     for (const line of winningLines) {
         const [a, b, c] = line;
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
@@ -55,7 +54,6 @@ function evaluateEnd() {
         return;
         }
     }
-    // check draw (no empties)
     if (!board.includes('')) {
         gameOver = true;
     }
@@ -68,34 +66,33 @@ function findWinningMove(symbol) {
     const countSymbol = values.filter(v => v === symbol).length;
     const countEmpty = values.filter(v => v === '').length;
 
-    // if there are 2 of our symbol and 1 empty, that's a winning move
+  
     if (countSymbol === 2 && countEmpty === 1) {
       const emptyIndex = line[values.indexOf('')];
       return emptyIndex;
     }
   }
-  return null; // no winning move found
+  return null; 
 }
 
 function computerMove() {
   if (gameOver || currentPlayer !== 'O') return;
 
-  // 1. Try to win
+ 
   let move = findWinningMove('O');
 
-  // 2. Try to block
+  
   if (move === null) move = findWinningMove('X');
 
-  // 3. Take center
+ 
   if (move === null && board[4] === '') move = 4;
 
-  // 4. Take a corner
+ 
   const corners = [0, 2, 6, 8].filter(i => board[i] === '');
   if (move === null && corners.length > 0) {
     move = corners[Math.floor(Math.random() * corners.length)];
   }
 
-  // 5. Random fallback
   if (move === null) {
     const empty = [];
     for (let i = 0; i < board.length; i++) if (board[i] === '') empty.push(i);
@@ -140,11 +137,11 @@ const resBtn = document.getElementById('resBtn');
 resBtn.addEventListener('click', resetGame);
 
 function resetGame() {
-  if (aiTimer) { clearTimeout(aiTimer); aiTimer = null; } // stop any scheduled O-move
+  if (aiTimer) { clearTimeout(aiTimer); aiTimer = null; }
   board = Array(9).fill('');
   winningLine = null;
   gameOver = false;
-  currentPlayer = 'X';  // X starts again
+  currentPlayer = 'X';
   render();
 }
 
