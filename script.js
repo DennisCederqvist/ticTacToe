@@ -60,49 +60,49 @@ function evaluateEnd() {
 }
 
 function findWinningMove(symbol) {
-  for (const line of winningLines) {
-    const [a, b, c] = line;
-    const values = [board[a], board[b], board[c]];
-    const countSymbol = values.filter(v => v === symbol).length;
-    const countEmpty = values.filter(v => v === '').length;
+    for (const line of winningLines) {
+        const [a, b, c] = line;
+        const values = [board[a], board[b], board[c]];
+        const countSymbol = values.filter(v => v === symbol).length;
+        const countEmpty = values.filter(v => v === '').length;
 
-  
-    if (countSymbol === 2 && countEmpty === 1) {
-      const emptyIndex = line[values.indexOf('')];
-      return emptyIndex;
+    
+        if (countSymbol === 2 && countEmpty === 1) {
+        const emptyIndex = line[values.indexOf('')];
+        return emptyIndex;
+        }
     }
-  }
-  return null; 
+    return null; 
 }
 
 function computerMove() {
-  if (gameOver || currentPlayer !== 'O') return;
+    if (gameOver || currentPlayer !== 'O') return;
 
- 
-  let move = findWinningMove('O');
+    
+    let move = findWinningMove('O');
 
-  
-  if (move === null) move = findWinningMove('X');
+    
+    if (move === null) move = findWinningMove('X');
 
- 
-  if (move === null && board[4] === '') move = 4;
+    
+    if (move === null && board[4] === '') move = 4;
 
- 
-  const corners = [0, 2, 6, 8].filter(i => board[i] === '');
-  if (move === null && corners.length > 0) {
-    move = corners[Math.floor(Math.random() * corners.length)];
-  }
+    
+    const corners = [0, 2, 6, 8].filter(i => board[i] === '');
+    if (move === null && corners.length > 0) {
+        move = corners[Math.floor(Math.random() * corners.length)];
+    }
 
-  if (move === null) {
-    const empty = [];
-    for (let i = 0; i < board.length; i++) if (board[i] === '') empty.push(i);
-    move = empty[Math.floor(Math.random() * empty.length)];
-  }
+    if (move === null) {
+        const empty = [];
+        for (let i = 0; i < board.length; i++) if (board[i] === '') empty.push(i);
+        move = empty[Math.floor(Math.random() * empty.length)];
+    }
 
-  board[move] = 'O';
-  evaluateEnd();
-  if (!gameOver) currentPlayer = 'X';
-  render();
+    board[move] = 'O';
+    evaluateEnd();
+    if (!gameOver) currentPlayer = 'X';
+    render();
 }
 
 
@@ -137,12 +137,12 @@ const resBtn = document.getElementById('resBtn');
 resBtn.addEventListener('click', resetGame);
 
 function resetGame() {
-  if (aiTimer) { clearTimeout(aiTimer); aiTimer = null; }
-  board = Array(9).fill('');
-  winningLine = null;
-  gameOver = false;
-  currentPlayer = 'X';
-  render();
+    if (aiTimer) { clearTimeout(aiTimer); aiTimer = null; }
+    board = Array(9).fill('');
+    winningLine = null;
+    gameOver = false;
+    currentPlayer = 'X';
+    render();
 }
 
 
